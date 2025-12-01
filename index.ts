@@ -45,4 +45,10 @@ if (input.length === 0) {
   await Bun.write(file, data);
 }
 
-console.log(`Solution to day ${paddedDay} is: ${solve(input).join(", ")}`);
+const start = performance.now();
+const solution = solve(input).join(", ");
+const time = performance.now() - start;
+
+console.log(
+  `Solution to day ${paddedDay} is ${solution} in ${time.toFixed(2)}ms`
+);
