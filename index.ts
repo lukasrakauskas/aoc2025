@@ -28,13 +28,11 @@ if (day < 1 || day > 12) throw new Error("Not valid day");
 
 const paddedDay = day.toString().padStart(2, "0");
 
-const { solve } = (await import(
-  `./year/${year}/day/${paddedDay}/solution.ts`
-)) as {
+const { solve } = (await import(`./year/${year}/${paddedDay}/solution.ts`)) as {
   solve: (input: string) => [unknown, unknown];
 };
 
-const file = Bun.file(`./year/${year}/day/${paddedDay}/input.txt`);
+const file = Bun.file(`./year/${year}/${paddedDay}/input.txt`);
 let input = await file.text();
 
 if (input.length === 0) {
