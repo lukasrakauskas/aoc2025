@@ -6,6 +6,10 @@ const { values } = parseArgs({
     day: {
       type: "string",
     },
+    year: {
+      type: "string",
+      default: new Date().getFullYear().toString(),
+    },
   },
   strict: true,
   allowPositionals: true,
@@ -18,21 +22,24 @@ if (!SESSION) {
 }
 
 const day = Number.parseInt(values.day ?? "-1");
+const year = Number.parseInt(values.year);
 
 if (day < 1 || day > 12) throw new Error("Not valid day");
 
 const paddedDay = day.toString().padStart(2, "0");
 
-const { solve } = (await import(`./day/${paddedDay}/solution.ts`)) as {
+const { solve } = (await import(
+  `./year/${year}/day/${paddedDay}/solution.ts`
+)) as {
   solve: (input: string) => [unknown, unknown];
 };
 
-const file = Bun.file(`./day/${paddedDay}/input.txt`);
+const file = Bun.file(`./year/${year}/day/${paddedDay}/input.txt`);
 let input = await file.text();
 
 if (input.length === 0) {
   const response = await fetch(
-    `https://adventofcode.com/2025/day/${day}/input`,
+    `https://adventofcode.com/${year}/day/${day}/input`,
     {
       headers: {
         Cookie: `session=${SESSION}`,
@@ -46,9 +53,11 @@ if (input.length === 0) {
 }
 
 const start = performance.now();
-const solution = solve(input).join(", ");
-const time = performance.now() - start;
+const solution = solve(input).join("\n");
+const end = performance.now();
+
+const took = (end - start).toFixed(2);
 
 console.log(
-  `Solution to day ${paddedDay} is ${solution} in ${time.toFixed(2)}ms`
+  `Solution of year ${year} and day ${paddedDay} is:\n\n${solution}\n\nSolved in ${took}ms`
 );
