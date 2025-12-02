@@ -30,7 +30,6 @@ export function solve(input: string) {
       const id = i.toString();
 
       if (isSequence(id)) {
-        console.log(id);
         sum2 += i;
       }
 
