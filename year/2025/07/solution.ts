@@ -47,12 +47,7 @@ export function solve(input: string) {
     }
   }
 
-  console.log(
-    Array.from(timelineMap.entries())
-      .sort((a, b) => a[0] - b[0])
-      .map((it) => it[1])
-  );
-  console.log(timelineMap.values().reduce((a, b) => a + b, 0));
+  const timelineCount = timelineMap.values().reduce((a, b) => a + b, 0);
 
-  return [splitCount];
+  return [splitCount, timelineCount];
 }
